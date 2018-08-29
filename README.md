@@ -26,7 +26,7 @@ rails db:create
 
 Use Rails model generators ([1](https://guides.rubyonrails.org/getting_started.html#creating-the-article-model), [2](https://richonrails.com/articles/rails-model-generator-shortcuts), [3](https://railsguides.net/advanced-rails-model-generators/)) to create migrations and models for this erd:
 
-![Landlord ERD](https://media.git.generalassemb.ly/user/6387/files/9e0dcac4-aaee-11e8-9cc7-8af3cca162d8)
+![Landlord ERD](https://media.git.generalassemb.ly/user/6387/files/7cbf7ad4-ab7a-11e8-8af3-3cc7f69cb59f)
 
 ### Writing Seeds
 
