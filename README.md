@@ -28,6 +28,10 @@ Use Rails model generators ([1](https://guides.rubyonrails.org/getting_started.h
 
 ![Landlord ERD](https://media.git.generalassemb.ly/user/6387/files/7cbf7ad4-ab7a-11e8-8af3-3cc7f69cb59f)
 
+### Model Declarations
+
+In the models directory, make sure that the apartment and tenant model declarations reflect the correct relationship in `apartment.rb` and `tenant.rb`. See [the docs on associations](https://guides.rubyonrails.org/association_basics.html).
+
 ### Writing Seeds
 
 In `db/seeds.rb` (experimenting in the rails console and then copying the working statements into the seeds file is a good strategy):
