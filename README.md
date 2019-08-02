@@ -8,7 +8,7 @@ This asignment we will practicing Active Record methods. We do not need to put a
 
 Fork and clone this repo.
 
-Create a new rails api project called landlord with a postgresql database skipping test files:
+Create a new rails project called landlord with a postgresql database skipping test files:
 
 ```shell
 rails new landlord --database=postgresql --skip-test
@@ -28,7 +28,7 @@ rails db:create
 
 ### Creating Models
 
-Use Rails model generators ([1](https://guides.rubyonrails.org/getting_started.html#creating-the-article-model), [2](https://richonrails.com/articles/rails-model-generator-shortcuts), [3](https://railsguides.net/advanced-rails-model-generators/)) to create migrations and models for this erd:
+Use Rails model generators ([1](https://guides.rubyonrails.org/getting_started.html#creating-the-article-model), [2](https://railsguides.net/advanced-rails-model-generators/)) to create migrations and models for this erd:
 
 ![Landlord ERD](https://media.git.generalassemb.ly/user/6387/files/7cbf7ad4-ab7a-11e8-8af3-3cc7f69cb59f)
 
