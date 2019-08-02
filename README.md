@@ -8,15 +8,13 @@ This asignment we will practicing Active Record methods. We do not need to put a
 
 Fork and clone this repo.
 
-Create a new rails project called landlord with a postgresql database skipping test files:
+Create a new rails project called landlord with a postgresql database skipping test files and skip making a `.git` direcotry:
 
 ```shell
-rails new landlord --database=postgresql --skip-test
+rails new landlord --database=postgresql --skip-test -G
 ```
 
 Change directories into the Rails app.
-
-Delete the `.git/` directory that was created by `rails new`.
 
 Create the database:
 
