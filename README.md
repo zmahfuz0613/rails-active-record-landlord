@@ -1,5 +1,9 @@
 # Active Record Landlord
 
+## Overview
+
+This asignment we will practicing Active Record methods. We do not need to put any code into our controllers, routes, or views. All of our code will go into our seed file. We can test with `rails console` and `psql`.
+
 ## Getting Started
 
 Fork and clone this repo.
@@ -7,7 +11,7 @@ Fork and clone this repo.
 Create a new rails api project called landlord with a postgresql database skipping test files:
 
 ```shell
-rails new landlord --api --database=postgresql --skip-test
+rails new landlord --database=postgresql --skip-test
 ```
 
 Change directories into the Rails app.
