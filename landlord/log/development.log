@@ -1,0 +1,583 @@
+  [1m[35m (521.2ms)[0m  [1m[35mCREATE DATABASE "landlord_development" ENCODING = 'unicode'[0m
+  [1m[35m (424.7ms)[0m  [1m[35mCREATE DATABASE "landlord_test" ENCODING = 'unicode'[0m
+  [1m[35m (16.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (5.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(883176785832158265)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateApartments (20200330201336)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "apartments" ("id" bigserial primary key, "address" text, "monthly_rent" integer, "sqft" integer, "num_beds" integer, "num_baths" integer, "allows_pets" boolean, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200330201336"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTenants (20200330201509)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (28.4ms)[0m  [1m[35mCREATE TABLE "tenants" ("id" bigserial primary key, "first_name" character varying, "last_name" character varying, "ssn" character varying, "has_pets" boolean, "apartment_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_6dcfd37aea"
+FOREIGN KEY ("apartment_id")
+  REFERENCES "apartments" ("id")
+)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX  "index_tenants_on_apartment_id" ON "tenants"  ("apartment_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200330201509"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-03-30 20:16:17.487439"], ["updated_at", "2020-03-30 20:16:17.487439"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(883176785832158265)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(883176785832158265)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to ChangeNullValueForApartmentRef (20200330202423)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.7ms)[0m  [1m[35mALTER TABLE "tenants" ALTER COLUMN "apartment" DROP NOT NULL[0m
+  [1m[35m (5.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(883176785832158265)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(883176785832158265)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to ChangeNullValueForApartmentRef (20200330202423)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.9ms)[0m  [1m[35mALTER TABLE "tenants" ALTER COLUMN "apartment_id" DROP NOT NULL[0m
+  [1m[36mprimary::SchemaMigration Create (2.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200330202423"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(883176785832158265)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (1.8ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:42:50.761601"], ["updated_at", "2020-03-30 20:42:50.761601"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:42:50.767350"], ["updated_at", "2020-03-30 20:42:50.767350"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:42:50.770784"], ["updated_at", "2020-03-30 20:42:50.770784"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (3.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 1], ["created_at", "2020-03-30 20:42:50.832665"], ["updated_at", "2020-03-30 20:42:50.832665"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 2], ["created_at", "2020-03-30 20:42:50.852269"], ["updated_at", "2020-03-30 20:42:50.852269"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 1], ["created_at", "2020-03-30 20:42:50.863696"], ["updated_at", "2020-03-30 20:42:50.863696"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 3], ["created_at", "2020-03-30 20:42:50.892328"], ["updated_at", "2020-03-30 20:42:50.892328"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 1], ["created_at", "2020-03-30 20:42:50.911536"], ["updated_at", "2020-03-30 20:42:50.911536"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 1], ["created_at", "2020-03-30 20:42:50.915409"], ["updated_at", "2020-03-30 20:42:50.915409"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.7ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:43:15.274318"], ["updated_at", "2020-03-30 20:43:15.274318"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:43:15.279687"], ["updated_at", "2020-03-30 20:43:15.279687"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:43:15.284678"], ["updated_at", "2020-03-30 20:43:15.284678"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.7ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 4], ["created_at", "2020-03-30 20:43:15.314774"], ["updated_at", "2020-03-30 20:43:15.314774"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 5], ["created_at", "2020-03-30 20:43:15.327132"], ["updated_at", "2020-03-30 20:43:15.327132"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 4], ["created_at", "2020-03-30 20:43:15.337681"], ["updated_at", "2020-03-30 20:43:15.337681"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 6], ["created_at", "2020-03-30 20:43:15.347117"], ["updated_at", "2020-03-30 20:43:15.347117"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (1.8ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 4], ["created_at", "2020-03-30 20:43:15.357325"], ["updated_at", "2020-03-30 20:43:15.357325"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 4], ["created_at", "2020-03-30 20:43:15.375662"], ["updated_at", "2020-03-30 20:43:15.375662"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.5ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:05.781706"], ["updated_at", "2020-03-30 20:45:05.781706"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:05.789000"], ["updated_at", "2020-03-30 20:45:05.789000"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.4ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:05.797303"], ["updated_at", "2020-03-30 20:45:05.797303"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.8ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 7], ["created_at", "2020-03-30 20:45:05.861890"], ["updated_at", "2020-03-30 20:45:05.861890"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 8], ["created_at", "2020-03-30 20:45:05.875365"], ["updated_at", "2020-03-30 20:45:05.875365"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 7], ["created_at", "2020-03-30 20:45:05.902129"], ["updated_at", "2020-03-30 20:45:05.902129"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 9], ["created_at", "2020-03-30 20:45:05.906230"], ["updated_at", "2020-03-30 20:45:05.906230"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 7], ["created_at", "2020-03-30 20:45:05.910321"], ["updated_at", "2020-03-30 20:45:05.910321"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 7], ["created_at", "2020-03-30 20:45:05.915196"], ["updated_at", "2020-03-30 20:45:05.915196"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.7ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:52.626624"], ["updated_at", "2020-03-30 20:45:52.626624"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.2ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:52.631903"], ["updated_at", "2020-03-30 20:45:52.631903"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (1.0ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:45:52.636167"], ["updated_at", "2020-03-30 20:45:52.636167"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (3.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 10], ["created_at", "2020-03-30 20:45:52.674472"], ["updated_at", "2020-03-30 20:45:52.674472"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 11], ["created_at", "2020-03-30 20:45:52.689338"], ["updated_at", "2020-03-30 20:45:52.689338"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 10], ["created_at", "2020-03-30 20:45:52.699778"], ["updated_at", "2020-03-30 20:45:52.699778"]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 12], ["created_at", "2020-03-30 20:45:52.717438"], ["updated_at", "2020-03-30 20:45:52.717438"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 10], ["created_at", "2020-03-30 20:45:52.729187"], ["updated_at", "2020-03-30 20:45:52.729187"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 10], ["created_at", "2020-03-30 20:45:52.746103"], ["updated_at", "2020-03-30 20:45:52.746103"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:45:52.749668"], ["updated_at", "2020-03-30 20:45:52.749668"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:45:52.753182"], ["updated_at", "2020-03-30 20:45:52.753182"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:45:52.757245"], ["updated_at", "2020-03-30 20:45:52.757245"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:45:52.762027"], ["updated_at", "2020-03-30 20:45:52.762027"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.6ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:17.118836"], ["updated_at", "2020-03-30 20:47:17.118836"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.4ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:17.123512"], ["updated_at", "2020-03-30 20:47:17.123512"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:17.131774"], ["updated_at", "2020-03-30 20:47:17.131774"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.9ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 13], ["created_at", "2020-03-30 20:47:17.192078"], ["updated_at", "2020-03-30 20:47:17.192078"]]
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 14], ["created_at", "2020-03-30 20:47:17.206916"], ["updated_at", "2020-03-30 20:47:17.206916"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 13], ["created_at", "2020-03-30 20:47:17.225215"], ["updated_at", "2020-03-30 20:47:17.225215"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 15], ["created_at", "2020-03-30 20:47:17.229251"], ["updated_at", "2020-03-30 20:47:17.229251"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 13], ["created_at", "2020-03-30 20:47:17.233931"], ["updated_at", "2020-03-30 20:47:17.233931"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 13], ["created_at", "2020-03-30 20:47:17.238123"], ["updated_at", "2020-03-30 20:47:17.238123"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:17.241449"], ["updated_at", "2020-03-30 20:47:17.241449"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:17.244956"], ["updated_at", "2020-03-30 20:47:17.244956"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:17.247903"], ["updated_at", "2020-03-30 20:47:17.247903"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:17.251497"], ["updated_at", "2020-03-30 20:47:17.251497"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.4ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:21.963127"], ["updated_at", "2020-03-30 20:47:21.963127"]]
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:21.968158"], ["updated_at", "2020-03-30 20:47:21.968158"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:47:21.977434"], ["updated_at", "2020-03-30 20:47:21.977434"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (1.0ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 16], ["created_at", "2020-03-30 20:47:22.027354"], ["updated_at", "2020-03-30 20:47:22.027354"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 17], ["created_at", "2020-03-30 20:47:22.046577"], ["updated_at", "2020-03-30 20:47:22.046577"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 16], ["created_at", "2020-03-30 20:47:22.063815"], ["updated_at", "2020-03-30 20:47:22.063815"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 18], ["created_at", "2020-03-30 20:47:22.068540"], ["updated_at", "2020-03-30 20:47:22.068540"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 16], ["created_at", "2020-03-30 20:47:22.074536"], ["updated_at", "2020-03-30 20:47:22.074536"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 16], ["created_at", "2020-03-30 20:47:22.079538"], ["updated_at", "2020-03-30 20:47:22.079538"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:22.084968"], ["updated_at", "2020-03-30 20:47:22.084968"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:22.089410"], ["updated_at", "2020-03-30 20:47:22.089410"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:22.094180"], ["updated_at", "2020-03-30 20:47:22.094180"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:47:22.099249"], ["updated_at", "2020-03-30 20:47:22.099249"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTenant Load (0.7ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants"[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.7ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (2.7ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 2]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 3]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 4]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 5]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.5ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 6]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 7]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 8]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 9]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 10]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 11]]
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 12]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 13]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 14]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 15]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 16]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 17]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 18]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (1.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 19]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 20]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 21]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 22]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 23]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 24]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 25]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 26]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 27]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 28]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 29]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 30]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 31]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.5ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 32]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 33]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 34]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 35]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 36]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 37]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 38]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 39]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 40]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 41]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 42]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 43]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 44]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.9ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 45]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 46]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 47]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 48]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mApartment Load (0.6ms)[0m  [1m[34mSELECT "apartments".* FROM "apartments"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.7ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 1]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 2]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 3]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 4]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 5]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 6]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 7]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 8]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 9]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 10]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 11]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 12]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 13]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 14]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 15]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.2ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 16]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.3ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 17]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.2ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 18]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.4ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:12.555926"], ["updated_at", "2020-03-30 20:48:12.555926"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:12.559834"], ["updated_at", "2020-03-30 20:48:12.559834"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:12.562696"], ["updated_at", "2020-03-30 20:48:12.562696"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 19], ["created_at", "2020-03-30 20:48:12.571290"], ["updated_at", "2020-03-30 20:48:12.571290"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 20], ["created_at", "2020-03-30 20:48:12.578563"], ["updated_at", "2020-03-30 20:48:12.578563"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (3.0ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 19], ["created_at", "2020-03-30 20:48:12.583117"], ["updated_at", "2020-03-30 20:48:12.583117"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.6ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 21], ["created_at", "2020-03-30 20:48:12.595201"], ["updated_at", "2020-03-30 20:48:12.595201"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 19], ["created_at", "2020-03-30 20:48:12.606656"], ["updated_at", "2020-03-30 20:48:12.606656"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 19], ["created_at", "2020-03-30 20:48:12.610115"], ["updated_at", "2020-03-30 20:48:12.610115"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (1.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:12.614393"], ["updated_at", "2020-03-30 20:48:12.614393"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:12.620768"], ["updated_at", "2020-03-30 20:48:12.620768"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:12.626880"], ["updated_at", "2020-03-30 20:48:12.626880"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:12.629909"], ["updated_at", "2020-03-30 20:48:12.629909"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTenant Load (0.8ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.5ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 49]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 50]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 51]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.4ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 52]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 53]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 54]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 55]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 56]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.2ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 57]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Destroy (0.3ms)[0m  [1m[31mDELETE FROM "tenants" WHERE "tenants"."id" = $1[0m  [["id", 58]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mApartment Load (0.6ms)[0m  [1m[34mSELECT "apartments".* FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (1.1ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 19]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.4ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 20]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Destroy (0.5ms)[0m  [1m[31mDELETE FROM "apartments" WHERE "apartments"."id" = $1[0m  [["id", 21]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.5ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "123 fake street"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:16.783976"], ["updated_at", "2020-03-30 20:48:16.783976"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.3ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "777 flower square"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:16.787653"], ["updated_at", "2020-03-30 20:48:16.787653"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mApartment Create (0.4ms)[0m  [1m[32mINSERT INTO "apartments" ("address", "monthly_rent", "sqft", "num_beds", "num_baths", "allows_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["address", "13 peachtree blvd"], ["monthly_rent", 1000], ["sqft", 2000], ["num_beds", 7], ["num_baths", 1], ["allows_pets", true], ["created_at", "2020-03-30 20:48:16.791854"], ["updated_at", "2020-03-30 20:48:16.791854"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "apartments"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.9ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 22], ["created_at", "2020-03-30 20:48:16.804056"], ["updated_at", "2020-03-30 20:48:16.804056"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 23], ["created_at", "2020-03-30 20:48:16.811579"], ["updated_at", "2020-03-30 20:48:16.811579"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 22], ["created_at", "2020-03-30 20:48:16.816586"], ["updated_at", "2020-03-30 20:48:16.816586"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.9ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 24], ["created_at", "2020-03-30 20:48:16.819810"], ["updated_at", "2020-03-30 20:48:16.819810"]]
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (1.5ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 22], ["created_at", "2020-03-30 20:48:16.829134"], ["updated_at", "2020-03-30 20:48:16.829134"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "apartment_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["apartment_id", 22], ["created_at", "2020-03-30 20:48:16.838649"], ["updated_at", "2020-03-30 20:48:16.838649"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:16.842934"], ["updated_at", "2020-03-30 20:48:16.842934"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.3ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:16.846368"], ["updated_at", "2020-03-30 20:48:16.846368"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.4ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:16.851455"], ["updated_at", "2020-03-30 20:48:16.851455"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTenant Create (0.2ms)[0m  [1m[32mINSERT INTO "tenants" ("first_name", "last_name", "ssn", "has_pets", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["first_name", "John"], ["last_name", "Doe"], ["ssn", "123-45-6789"], ["has_pets", false], ["created_at", "2020-03-30 20:48:16.857595"], ["updated_at", "2020-03-30 20:48:16.857595"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tenants"[0m
+  [1m[36mTenant Load (1.6ms)[0m  [1m[34mSELECT "tenants".* FROM "tenants" ORDER BY "tenants"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
