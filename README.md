@@ -13,7 +13,7 @@ Fork and clone this repo.
 Create a new rails project called landlord with a postgresql database and skip making a `.git` directory:
 
 ```shell
-rails new landlord --database=postgresql -G
+rails new landlord --database=postgresql -G --api
 ```
 
 Change directories into the Rails app.
