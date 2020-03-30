@@ -1,17 +1,19 @@
 # Active Record Landlord
 
+![](https://media1.giphy.com/media/l2Je2fjOTvEK0c1Uc/giphy.gif)
+
 ## Overview
 
-This asignment we will practicing Active Record methods. We do not need to put any code into our controllers, routes, or views. All of our code will go into our seed file. We can test with `rails console` and `psql`.
+This assignment we will practicing Active Record methods. We do not need to put any code into our controllers, routes, or views. All of our code will go into our seed file. We can test with `rails console` and `psql`.
 
 ## Getting Started
 
 Fork and clone this repo.
 
-Create a new rails project called landlord with a postgresql database skipping test files and skip making a `.git` direcotry:
+Create a new rails project called landlord with a postgresql database and skip making a `.git` directory:
 
 ```shell
-rails new landlord --database=postgresql --skip-test -G
+rails new landlord --database=postgresql -G
 ```
 
 Change directories into the Rails app.
@@ -42,11 +44,8 @@ In `db/seeds.rb` (experimenting in the rails console and then copying the workin
 - Create at least 9 instances of the Tenant class. At least 5 should belong to an apartment
 - Query for all instances of the Tenant class and store it in a variable
 - Query for all instances of the Tenant class that belong to one of the Apartments you created and store it in a variable
-- Update of one of the objects you've created attributes using attribute helper methods
+- Update of one of the attributes for one of the objects you've created using attribute helper methods
 - Save the object that you updated to the database
 - Update an object using the update method
 - Delete one of the objects you've created
 
-## Submitting
-
-Push your code and make a PR back to this repo.
